@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedShope - Stationery Collection</title>
+    <style>
+        /* === RESET & BASE STYLES === */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: Arial, sans-serif;
+        }
+
+        body {
+          overflow-x: hidden;
+          background-color: #f8f8f8;
+          color: #333;
+          width: 100%;
+        }
+
+        /* ===== FULL WIDTH HEADER & NAVBAR ===== */
+        .header {
+          width: 100%;
+          background: #fff;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+
+        .navbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 10px 30px;
+        }
+
+       .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #111;
+}
+
+.navbar-brand-mark {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff3b30;
+    color: #fff;
+    border-radius: 11px;
+    font-size: 21px;
+    font-weight: 900;
+    box-shadow: 0 7px 20px rgba(255, 59, 48, 0.25);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 1.8px;
+    font-weight: 900;
+    color: #111;
+}
+
+.navbar-brand-name small {
+    margin-top: 5px;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    color: #777;
+}
+
+.navbar-brand:hover .navbar-brand-mark {
+    transform: translateY(-2px) rotate(-4deg);
+    box-shadow: 0 10px 25px rgba(255, 59, 48, 0.35);
+}
+
+.navbar-brand:hover .navbar-brand-name {
+    color: #ff3b30;
+}
+
+        nav ul {
+          list-style: none;
+          display: flex;
+          gap: 20px;
+        }
+
+        nav ul li a {
+          text-decoration: none;
+          color: #333;
+          font-size: 15px;
+          padding: 6px 10px;
+          transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+          background: #f0f0f0;
+          color: #007bff;
+          border-radius: 4px;
+        }
+
+        /* Right Actions Wrapper */
+        .nav-right-actions {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        /* Cart & Badge Container */
+        .cart-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        }
+
+        .cart {
+          width: 28px;
+          height: 28px;
+          object-fit: contain;
+        }
+
+        .cart-count {
+          position: absolute;
+          top: -8px;
+          right: -10px;
+          background: red;
+          color: white;
+          font-size: 11px;
+          padding: 2px 6px;
+          border-radius: 50%;
+          font-weight: bold;
+        }
+
+        /* Mobile Hamburger Menu Icon */
+        .menu-toggle {
+          display: none;
+          flex-direction: column;
+          cursor: pointer;
+          gap: 5px;
+          padding: 5px;
+        }
+
+        .menu-toggle span {
+          width: 25px;
+          height: 3px;
+          background: #333;
+          border-radius: 2px;
+          transition: 0.3s;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+          max-width: 1200px;
+          margin: auto;
+          padding: 0 15px;
+        }
+
+        /* ===== PRODUCT GRID ===== */
+        .continer {
+          max-width: 1200px;
+          margin: auto;
+          padding: 10px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 15px;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+          width: 100%;
+          background: #fff;
+          border-radius: 8px;
+          padding: 15px;
+          text-align: center;
+          border: 1px solid #eee;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          transition: 0.3s;
+        }
+
+        .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+          width: 100%;
+          height: 150px;
+          object-fit: contain;
+          background: #fff;
+        }
+
+        .card h2 {
+          font-size: 16px;
+          margin: 10px 0;
+          color: #444;
+        }
+
+        /* ===== RATING ===== */
+        .rating::before {
+          content: "★★★★★";
+          letter-spacing: 3px;
+          color: #f5b50a;
+          font-size: 14px;
+        }
+
+        /* ===== PRICE ===== */
+        .productpriceelm {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin: 8px 0;
+        }
+
+        .productprice {
+          color: red;
+          font-weight: bold;
+        }
+
+        .productacutleprice {
+          text-decoration: line-through;
+          color: #888;
+        }
+
+        /* ===== STOCK ===== */
+        .productstockelm {
+          font-size: 13px;
+          margin-bottom: 12px;
+          color: #666;
+        }
+
+        .productpropty {
+          display: inline;
+        }
+
+        .productstock {
+          display: inline;
+          font-weight: bold;
+        }
+
+        /* ===== BUTTON ===== */
+        .addtocartbtn {
+          background: black;
+          color: white;
+          border: none;
+          padding: 10px;
+          width: 100%;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: 0.3s;
+          font-weight: bold;
+        }
+
+        .addtocartbtn:hover {
+          background: orange;
+        }
+
+      /* =========================================================
+   REDSTORE — PREMIUM FOOTER
+   ========================================================= */
+
+.footer {
+    position: relative;
+    background: #0b0b0c;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #ff3b30,
+        transparent
+    );
+}
+
+.footer-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 75px 35px 0;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 65px;
+    padding-bottom: 65px;
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.footer-brand {
+    max-width: 390px;
+}
+
+.footer-brand .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    text-decoration: none;
+    color: #ffffff;
+    margin-bottom: 22px;
+}
+
+.footer-brand .brand-mark {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff3b30;
+    color: #ffffff;
+    border-radius: 13px;
+    font-size: 23px;
+    font-weight: 900;
+    box-shadow: 0 10px 30px rgba(255, 59, 48, 0.25);
+    transition: all 0.3s ease;
+}
+
+.footer-brand .brand:hover .brand-mark {
+    transform: translateY(-3px) rotate(-4deg);
+    box-shadow: 0 14px 35px rgba(255, 59, 48, 0.35);
+}
+
+.footer-brand .brand-name {
+    display: flex;
+    flex-direction: column;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+.footer-brand .brand-subtitle {
+    margin-top: 6px;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 2.8px;
+    color: #888;
+}
+
+.brand-desc {
+    max-width: 370px;
+    margin: 0 0 27px;
+    color: #a6a6a8;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   APP STORE BUTTONS
+   ========================================================= */
+
+.store-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.store-badge {
+    display: block;
+    width: 145px;
+    height: 44px;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.store-badge img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+.store-badge:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.12);
+}
+
+/* =========================================================
+   SOCIAL ICONS
+   ========================================================= */
+
+.socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    color: #b5b5b7;
+    text-decoration: none;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.025);
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    color: #ffffff;
+    background: #ff3b30;
+    border-color: #ff3b30;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(255, 59, 48, 0.25);
+}
+
+/* =========================================================
+   FOOTER COLUMNS
+   ========================================================= */
+
+.footer-col {
+    min-width: 0;
+}
+
+.footer-title {
+    position: relative;
+    margin: 4px 0 24px;
+    padding-bottom: 12px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.footer-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 2px;
+    background: #ff3b30;
+    border-radius: 10px;
+}
+
+.footer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.footer-list a {
+    position: relative;
+    display: inline-block;
+    color: #969699;
+    text-decoration: none;
+    font-size: 13.5px;
+    line-height: 1.5;
+    transition: all 0.25s ease;
+}
+
+.footer-list a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: #ff3b30;
+    transition: width 0.25s ease;
+}
+
+.footer-list a:hover {
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+.footer-list a:hover::before {
+    width: 100%;
+}
+
+/* =========================================================
+   FOOTER BOTTOM
+   ========================================================= */
+
+.footer-bottom {
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.copyright {
+    margin: 0;
+    color: #77777a;
+    font-size: 12px;
+}
+
+.footer-perks {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 0;
+    color: #77777a;
+    font-size: 12px;
+}
+
+.footer-perks span {
+    transition: color 0.25s ease;
+}
+
+.footer-perks span:hover {
+    color: #ffffff;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+    .footer-main {
+        padding: 60px 28px 0;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1.6fr 1fr 1fr;
+        gap: 45px 35px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+        max-width: 600px;
+    }
+
+    .footer-bottom {
+        min-height: auto;
+        padding: 22px 0;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .footer-main {
+        padding: 50px 20px 0;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 42px 25px;
+        padding-bottom: 45px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+
+    .footer-brand .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 11px;
+        font-size: 21px;
+    }
+
+    .footer-brand .brand-name {
+        font-size: 20px;
+    }
+
+    .brand-desc {
+        font-size: 13px;
+        line-height: 1.75;
+    }
+
+    .store-buttons {
+        flex-wrap: wrap;
+    }
+
+    .store-badge {
+        width: 135px;
+        height: 41px;
+    }
+
+    .footer-title {
+        margin-bottom: 20px;
+    }
+
+    .footer-list {
+        gap: 11px;
+    }
+
+    .footer-list a {
+        font-size: 13px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 22px 0;
+    }
+
+    .footer-perks {
+        justify-content: flex-start;
+        line-height: 1.8;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+
+    .footer-main {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 38px 18px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+
+    .footer-brand .brand {
+        gap: 10px;
+    }
+
+    .footer-brand .brand-mark {
+        width: 42px;
+        height: 42px;
+    }
+
+    .footer-brand .brand-name {
+        font-size: 18px;
+    }
+
+    .footer-brand .brand-subtitle {
+        font-size: 7px;
+        letter-spacing: 2px;
+    }
+
+    .brand-desc {
+        font-size: 12.5px;
+    }
+
+    .store-buttons {
+        gap: 8px;
+    }
+
+    .store-badge {
+        width: 125px;
+        height: 38px;
+    }
+
+    .social-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .footer-title {
+        font-size: 11px;
+        letter-spacing: 1.4px;
+    }
+
+    .footer-list a {
+        font-size: 12px;
+    }
+
+    .footer-perks {
+        font-size: 11px;
+    }
+
+    .copyright {
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.footer a:focus-visible {
+    outline: 2px solid #ff3b30;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .footer *,
+    .footer *::before,
+    .footer *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+          .continer {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (max-width: 600px) {
+          .menu-toggle {
+            display: flex; /* Display hamburger menu icon on mobile */
+          }
+
+          /* Full-width mobile dropdown menu styling */
+          nav {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100vw;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+          }
+
+          /* Show dropdown when toggled via JS */
+          nav.active {
+            max-height: 350px;
+          }
+
+          nav ul {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 10px 0;
+            gap: 0;
+          }
+
+          nav ul li {
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+          }
+
+          nav ul li a {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            font-size: 16px;
+          }
+
+          .continer {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+
+          .card img {
+            height: 120px;
+          }
+
+          .card h2 {
+            font-size: 13px;
+          }
+
+          .addtocartbtn {
+            font-size: 11px;
+            padding: 8px;
+          }
+
+          .footer .roww {
+            flex-direction: column;
+            text-align: center;
+          }
+        }
+    </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="navbar">
+      
+<div class="logo">
+    <a href="/" class="navbar-brand" aria-label="Redstore Home">
+        <span class="navbar-brand-mark">R</span>
+
+        <span class="navbar-brand-name">
+            REDSTORE
+            <small>PREMIUM SHOPPING</small>
+        </span>
+    </a>
+</div>
+      
+      <!-- Full-width mobile navigation menu container -->
+      <nav id="nav-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#productpage">Product</a></li>
+          <li><a href="#footers">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/account">Account</a></li>
+        </ul>
+      </nav>
+      
+      <!-- Right Actions Wrapper (Cart + Mobile Menu Toggle) -->
+      <div class="nav-right-actions">
+        <a href="/addtocart" style="text-decoration: none;">
+          <div class="cart-container">
+            <img src="static/images/cart.png" class="cart" alt="Cart" width="30px" height="30px">
+            <span class="cart-count" id="cart-count">0</span>
+          </div>
+        </a>
+        <div class="menu-toggle" id="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All Product Section -->
+  <div class="container" id="productpage">
+    <div class="continer">
+
+      <div class="card">
+        <img src="/static/images/statsionarys.png" alt="Stationery Kit">
+        <h2>Stationery Kit</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹999.99</p>
+          <p class="productacutleprice">₹1999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary2.png" alt="Hauser XO pens">
+        <h2>Hauser XO pens(50)</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹599.99</p>
+          <p class="productacutleprice">₹3999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary3.png" alt="School Bag Kit">
+        <h2>School Bag Kit</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹799.99</p>
+          <p class="productacutleprice">₹1999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary4.png" alt="Singal Spiral Notebooks">
+        <h2>Singal Spiral Notebooks</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹599.99</p>
+          <p class="productacutleprice">₹1999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary5.png" alt="Files & Folder">
+        <h2>Files & Folder</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹999.99</p>
+          <p class="productacutleprice">₹1999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary6.png" alt="Large Folder">
+        <h2>Large Folder & folder (10)</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹1999.99</p>
+          <p class="productacutleprice">₹3999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary7.png" alt="Drawing Book Set">
+        <h2>Drawing/Coloring Book Set</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹599.99</p>
+          <p class="productacutleprice">₹999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+      <div class="card">
+        <img src="/static/images/statsionary8.png" alt="Children's Activity Books">
+        <h2>Children's Activity Books</h2>
+        <div class="rating"></div>
+        <div class="productpriceelm">
+          <p class="productprice">₹799.99</p>
+          <p class="productacutleprice">₹3999</p>
+        </div>
+        <div class="productstockelm">
+          <p class="productpropty">Total Stock Available:</p>
+          <p class="productstock">50</p>
+        </div>
+        <button class="addtocartbtn"><i>🛒</i> Add To Cart</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+ <footer class="footer" id="about" role="contentinfo">
+
+    <div class="container footer-main">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <a href="{% url 'home' %}" class="brand" aria-label="Redstore Home">
+
+                    <span class="brand-mark">R</span>
+
+                    <span class="brand-name">
+                        REDSTORE
+                        <small class="brand-subtitle">
+                            PREMIUM SHOPPING
+                        </small>
+                    </span>
+
+                </a>
+
+                <p class="brand-desc">
+                    A modern, lightning-fast shopping destination for fashion,
+                    electronics, gaming, kids, and lifestyle essentials.
+                </p>
+
+                <div class="store-buttons">
+
+                    <a href="#" class="store-badge">
+                        <img
+                            src="{% static 'images/play-store.png' %}"
+                            alt="Google Play"
+                            loading="lazy"
+                        >
+                    </a>
+
+                    <a href="#" class="store-badge">
+                        <img
+                            src="{% static 'images/app-store.png' %}"
+                            alt="App Store"
+                            loading="lazy"
+                        >
+                    </a>
+
+                </div>
+
+                <div class="socials" aria-label="Social Media Links">
+
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3 class="footer-title">SHOP</h3>
+
+                <ul class="footer-list">
+                    <li><a href="/clothingproduct">Clothing & Apparel</a></li>
+                    <li><a href="/electronics">Electronics</a></li>
+                    <li><a href="/kidsproduct">Kids Zone</a></li>
+                    <li><a href="/toys">Toys & Hobbies</a></li>
+                    <li><a href="/Gaming">Gaming Hub</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3 class="footer-title">COMPANY</h3>
+
+                <ul class="footer-list">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="#products">Featured Products</a></li>
+                    <li><a href="{% url 'account' %}">My Account</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-col">
+
+                <h3 class="footer-title">SUPPORT</h3>
+
+                <ul class="footer-list">
+                    <li><a href="#">Shipping & Delivery</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p class="copyright">
+                &copy; 2026 REDSTORE. All rights reserved.
+            </p>
+
+            <p class="footer-perks">
+                <span>🔒 Secure Shopping</span> &bull;
+                <span>⚡ Lightning Fast Delivery</span> &bull;
+                <span>🌟 24/7 Premium Support</span>
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+  <!-- JavaScript Logic -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Full-width Mobile Menu Toggle Logic
+      const mobileMenu = document.getElementById("mobile-menu");
+      const navLinks = document.getElementById("nav-links");
+
+      if (mobileMenu && navLinks) {
+        mobileMenu.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+        });
+      }
+
+      // 2. Cart Management System
+      const cartCountBadge = document.getElementById("cart-count");
+
+      function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCountBadge.innerText = totalItems;
+      }
+
+      // Initialize counter badge on page load
+      updateCartCount();
+
+      const addToCartButtons = document.querySelectorAll(".addtocartbtn");
+
+      addToCartButtons.forEach((button, index) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const card = button.closest(".card");
+          const name = card.querySelector("h2").innerText.trim();
+          const price = parseFloat(card.querySelector(".productprice").innerText.replace("₹", "").trim());
+          const originalPrice = parseFloat(card.querySelector(".productacutleprice").innerText.replace("₹", "").trim());
+          const stock = parseInt(card.querySelector(".productstock").innerText.trim());
+          const imageSrc = card.querySelector("img").getAttribute("src");
+          const id = index + 101; // Unique ID range for the Stationery page
+
+          const productData = {
+            id,
+            name,
+            price,
+            originalPrice,
+            stock,
+            image: imageSrc,
+            quantity: 1
+          };
+
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          const existing = cart.find(item => item.id === id);
+
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            cart.push(productData);
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+          
+          // Refresh badge count live
+          updateCartCount();
+
+          // Button feedback animation
+          button.innerText = "✓ Added!";
+          setTimeout(() => {
+            button.innerHTML = "<i>🛒</i> Add To Cart";
+          }, 1000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #f9f9f9, #e9ecf5);
+}
+
+/* CONTAINER */
+.checkout-container {
+    max-width: 850px;
+    margin: 60px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* CART BOX */
+#order-summary {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8f9ff;
+}
+
+/* ITEM STYLE */
+li {
+    padding: 8px;
+    margin: 5px 0;
+    background: #fff;
+    border-left: 4px solid #ff4b2b;
+    list-style: none;
+}
+
+/* BUTTON */
+#order-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: #ff4b2b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* HOVER */
+#order-btn:hover {
+    background: #e84322;
+    transform: scale(1.02);
+}
+
+/* DISABLED BUTTON */
+#order-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* EMPTY STATE */
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="checkout-container">
+
+  <h1>Checkout Page</h1>
+
+  {% if 'username' in session %}
+    <p style="text-align:center; color:green;">
+        Welcome, {{ session['username'] }}!
+    </p>
+  {% endif %}
+
+  <div id="order-summary">
+    <p class="empty">Loading cart...</p>
+  </div>
+
+  <button id="order-btn">Confirm Order</button>
+
+</div>
+
+<script>
+
+let cartItems;
+try {
+    const storedCart = JSON.parse(localStorage.getItem("cart"));
+    cartItems = Array.isArray(storedCart) ? storedCart : [];
+} catch (e) {
+    cartItems = [];
+}
+
+const orderSummary = document.getElementById("order-summary");
+const orderBtn = document.getElementById("order-btn");
+
+/* 🔥 RENDER CART */
+function renderOrder() {
+
+    if (cartItems.length === 0) {
+        orderSummary.innerHTML = `<p class="empty">🛒 Your cart is empty!</p>`;
+
+        orderBtn.disabled = true;
+        orderBtn.style.opacity = "0.5";
+        orderBtn.style.cursor = "not-allowed";
+        return;
+    }
+
+    orderBtn.disabled = false;
+    orderBtn.style.opacity = "1";
+    orderBtn.style.cursor = "pointer";
+
+    let html = "<ul>";
+
+    cartItems.forEach(item => {
+        html += `
+            <li>
+                ${item.name} - Qty: ${item.quantity} - 
+                ₹${(item.price * item.quantity).toFixed(2)}
+            </li>
+        `;
+    });
+
+    html += "</ul>";
+
+    orderSummary.innerHTML = html;
+}
+
+/* 🔥 ORDER PLACE */
+orderBtn.addEventListener('click', () => {
+
+    if (cartItems.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    const previousOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    previousOrders.push(...cartItems);
+
+    localStorage.setItem("orders", JSON.stringify(previousOrders));
+
+    alert("✅ Order placed successfully!");
+
+    localStorage.removeItem("cart");
+
+    cartItems = [];
+
+    renderOrder();
+
+    window.location.href = "/";
+});
+
+renderOrder();
+
+</script>
+
+</body>
+</html> {% endcomment %}
